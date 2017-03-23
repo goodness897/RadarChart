@@ -5,14 +5,31 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import kr.co.openit.radarchart.animation.Easing;
+import kr.co.openit.radarchart.charts.RadarChart;
+import kr.co.openit.radarchart.components.AxisBase;
+import kr.co.openit.radarchart.components.Legend;
+import kr.co.openit.radarchart.components.MarkerView;
+import kr.co.openit.radarchart.components.XAxis;
+import kr.co.openit.radarchart.components.YAxis;
+import kr.co.openit.radarchart.data.RadarData;
+import kr.co.openit.radarchart.data.RadarDataSet;
+import kr.co.openit.radarchart.data.RadarEntry;
+import kr.co.openit.radarchart.formatter.IAxisValueFormatter;
+import kr.co.openit.radarchart.interfaces.datasets.IRadarDataSet;
+
 public class MainActivity extends BaseActivity {
 
     private RadarChart mChart;
+
+    private ArrayList<RadarEntry> entries2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        entries2 = new ArrayList<RadarEntry>();
 
         mChart = (RadarChart) findViewById(R.id.chart1);
 
@@ -23,6 +40,7 @@ public class MainActivity extends BaseActivity {
         mChart.setWebLineWidthInner(1f);
         mChart.setWebColorInner(Color.LTGRAY);
         mChart.setWebAlpha(100);
+        mChart.setRotationEnabled(false);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
@@ -42,17 +60,23 @@ public class MainActivity extends BaseActivity {
         xAxis.setTextSize(9f);
         xAxis.setYOffset(0f);
         xAxis.setXOffset(0f);
+        xAxis.setTextColor(Color.rgb(159, 155, 152));
+        xAxis.setValueTextColor(Color.rgb(61, 55, 50));
+        xAxis.setValueTextSize(14f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private String[] mActivities = new String[]{"Burger", "Steak", "Salad"};
+            private String[] mActivities = new String[]{"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return mActivities[(int) value % mActivities.length];
             }
-        });
-        xAxis.setTextColor(Color.BLACK);
 
+            @Override
+            public RadarEntry getValue(float value, AxisBase axis) {
+                return entries2.get((int) value % entries2.size());
+            }
+        });
         YAxis yAxis = mChart.getYAxis();
         yAxis.setTypeface(mTfLight);
         yAxis.setLabelCount(1, false);
@@ -62,6 +86,7 @@ public class MainActivity extends BaseActivity {
         yAxis.setDrawLabels(false);
 
         Legend l = mChart.getLegend();
+        l.setForm(Legend.LegendForm.NONE);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -74,11 +99,10 @@ public class MainActivity extends BaseActivity {
     public void setData() {
 
         float mult = 80;
-        float min = 20;
+        float min = 10;
         int cnt = 5;
 
 //        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
-        ArrayList<RadarEntry> entries2 = new ArrayList<RadarEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
@@ -87,6 +111,7 @@ public class MainActivity extends BaseActivity {
 //            entries1.add(new RadarEntry(val1));
 
             float val2 = (float) (Math.random() * mult) + min;
+//            float val2 = 80;
             entries2.add(new RadarEntry(val2));
         }
 
@@ -100,11 +125,11 @@ public class MainActivity extends BaseActivity {
 //        set1.setDrawHighlightIndicators(false);
 
         RadarDataSet set2 = new RadarDataSet(entries2, "");
-        set2.setColor(Color.rgb(121, 162, 175));
-        set2.setFillColor(Color.rgb(121, 162, 175));
+        set2.setColor(Color.rgb(29, 198, 161));
+//        set2.setFillColor(Color.rgb(121, 162, 175));
         set2.setDrawFilled(false);
         set2.setFillAlpha(180);
-        set2.setLineWidth(2f);
+        set2.setLineWidth(4f);
         set2.setDrawHighlightCircleEnabled(true);
         set2.setDrawHighlightIndicators(false);
 

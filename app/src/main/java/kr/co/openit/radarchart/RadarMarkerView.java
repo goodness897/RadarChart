@@ -6,6 +6,11 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import kr.co.openit.radarchart.components.MarkerView;
+import kr.co.openit.radarchart.data.Entry;
+import kr.co.openit.radarchart.highlight.Highlight;
+import kr.co.openit.radarchart.utils.MPPointF;
+
 /**
  * Custom implementation of the MarkerView.
  * 

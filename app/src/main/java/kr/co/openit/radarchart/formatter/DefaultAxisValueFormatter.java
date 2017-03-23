@@ -1,0 +1,61 @@
+package kr.co.openit.radarchart.formatter;
+
+import java.text.DecimalFormat;
+
+import kr.co.openit.radarchart.components.AxisBase;
+import kr.co.openit.radarchart.data.RadarEntry;
+
+/**
+ * Created by philipp on 02/06/16.
+ */
+public class DefaultAxisValueFormatter implements IAxisValueFormatter {
+
+    /**
+     * decimalformat for formatting
+     */
+    protected DecimalFormat mFormat;
+
+    /**
+     * the number of decimal digits this formatter uses
+     */
+    protected int digits = 0;
+
+    /**
+     * Constructor that specifies to how many digits the value should be
+     * formatted.
+     *
+     * @param digits
+     */
+    public DefaultAxisValueFormatter(int digits) {
+        this.digits = digits;
+
+        StringBuffer b = new StringBuffer();
+        for (int i = 0; i < digits; i++) {
+            if (i == 0)
+                b.append(".");
+            b.append("0");
+        }
+
+        mFormat = new DecimalFormat("###,###,###,##0" + b.toString());
+    }
+
+    @Override
+    public String getFormattedValue(float value, AxisBase axis) {
+        // avoid memory allocations here (for performance)
+        return mFormat.format(value);
+    }
+
+    @Override
+    public RadarEntry getValue(float value, AxisBase axis) {
+        return null;
+    }
+
+    /**
+     * Returns the number of decimal digits this formatter uses or -1, if unspecified.
+     *
+     * @return
+     */
+    public int getDecimalDigits() {
+        return digits;
+    }
+}
