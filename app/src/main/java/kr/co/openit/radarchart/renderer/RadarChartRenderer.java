@@ -139,13 +139,13 @@ public class RadarChartRenderer extends LineRadarRenderer {
                 hasMovedToPoint = true;
             } else {
                 switch (j) {
-
                     case 1:
                         //                        surface.quadTo(pOut.x - 100, pOut.y + 100, pOut.x, pOut.y);
                         surface.cubicTo(moveX,
                                         moveY,
                                         center.x + ((pOut.x - center.x) / 2),
-                                        pOut.y + ((center.y - pOut.y) / 2),
+//                                        (center.y + pOut.y) / 2,
+                                                                                pOut.y + ((center.y - pOut.y) / 2),
                                         pOut.x,
                                         pOut.y);
 

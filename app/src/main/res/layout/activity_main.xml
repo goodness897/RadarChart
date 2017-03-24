@@ -8,7 +8,7 @@
     <View
         android:background="@android:color/black"
         android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        android:layout_height="45dp"/>
 
 
     <kr.co.openit.radarchart.charts.RadarChart

@@ -24,6 +24,9 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<RadarEntry> entries2;
 
+    private String[] mActivities = new String[]{"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +68,6 @@ public class MainActivity extends BaseActivity {
         xAxis.setValueTextSize(14f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private String[] mActivities = new String[]{"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -99,7 +101,7 @@ public class MainActivity extends BaseActivity {
     }
     public void setData() {
 
-        float mult = 60;
+        float mult = 50;
         float min = 40;
         int cnt = 5;
 
