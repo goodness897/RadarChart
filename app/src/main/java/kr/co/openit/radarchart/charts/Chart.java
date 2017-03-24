@@ -728,6 +728,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
 
             Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null

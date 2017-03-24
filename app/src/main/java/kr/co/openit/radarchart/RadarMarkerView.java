@@ -32,6 +32,7 @@ public class RadarMarkerView extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
+
         tvContent.setText(format.format(e.getY()) + " %");
 
         super.refreshContent(e, highlight);

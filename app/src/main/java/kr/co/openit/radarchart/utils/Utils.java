@@ -312,7 +312,7 @@ public abstract class Utils {
 
             // add decimal point
             if (charCount == digitCount) {
-                out[ind--] = ',';
+                out[ind--] = '.';
                 charCount++;
                 decimalPointAdded = true;
 
@@ -612,11 +612,11 @@ public abstract class Utils {
 
             paint.setTextSize(axisBase.getTextSize());
             paint.setColor(axisBase.getTextColor());
-            c.drawText(text, drawOffsetX, drawOffsetY, paint);
+            c.drawText(text, drawOffsetX, drawOffsetY - 80, paint);
 
             paint.setTextSize(axisBase.getValueTextSize());
             paint.setColor(axisBase.getValueTextColor());
-            c.drawText(formatNumber(drawValue, 1, false), drawOffsetX, drawOffsetY + 80, paint);
+            c.drawText(formatNumber(drawValue, 1, false), drawOffsetX, drawOffsetY, paint);
         }
 
         paint.setTextAlign(originalTextAlign);

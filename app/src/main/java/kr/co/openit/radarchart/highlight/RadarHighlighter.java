@@ -55,7 +55,7 @@ public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
 
         float phaseX = mChart.getAnimator().getPhaseX();
         float phaseY = mChart.getAnimator().getPhaseY();
-        float sliceangle = mChart.getSliceAngle();
+        float sliceAngle = mChart.getSliceAngle();
         float factor = mChart.getFactor();
 
         MPPointF pOut = MPPointF.getInstance(0,0);
@@ -69,7 +69,7 @@ public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
 
             Utils.getPosition(
                     mChart.getCenterOffsets(), y * factor * phaseY,
-                    sliceangle * index * phaseX + mChart.getRotationAngle(), pOut);
+                    sliceAngle * index * phaseX + mChart.getRotationAngle(), pOut);
 
             mHighlightBuffer.add(new Highlight(index, entry.getY(), pOut.x, pOut.y, i, dataSet.getAxisDependency()));
         }

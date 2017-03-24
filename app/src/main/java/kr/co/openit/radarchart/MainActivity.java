@@ -86,20 +86,21 @@ public class MainActivity extends BaseActivity {
         yAxis.setDrawLabels(false);
 
         Legend l = mChart.getLegend();
-        l.setForm(Legend.LegendForm.NONE);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setTypeface(mTfLight);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(5f);
-        l.setTextColor(Color.WHITE);
+        l.setEnabled(false);
+//        l.setForm(Legend.LegendForm.NONE);
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
+//        l.setTypeface(mTfLight);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(5f);
+//        l.setTextColor(Color.WHITE);
     }
     public void setData() {
 
-        float mult = 80;
-        float min = 10;
+        float mult = 60;
+        float min = 40;
         int cnt = 5;
 
 //        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
@@ -130,7 +131,7 @@ public class MainActivity extends BaseActivity {
         set2.setDrawFilled(false);
         set2.setFillAlpha(180);
         set2.setLineWidth(4f);
-        set2.setDrawHighlightCircleEnabled(true);
+        set2.setDrawHighlightCircleEnabled(false);
         set2.setDrawHighlightIndicators(false);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();

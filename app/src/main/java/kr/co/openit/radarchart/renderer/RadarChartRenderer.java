@@ -93,6 +93,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         float x = 0, y = 0;
         float moveX = 0, moveY = 0;
+        float dx = 0, dy = 0;
         MPPointF center = mChart.getCenterOffsets();
         MPPointF pOut = MPPointF.getInstance(0, 0);
 
@@ -138,9 +139,16 @@ public class RadarChartRenderer extends LineRadarRenderer {
                 hasMovedToPoint = true;
             } else {
                 switch (j) {
+
                     case 1:
                         //                        surface.quadTo(pOut.x - 100, pOut.y + 100, pOut.x, pOut.y);
-                        surface.cubicTo(moveX, moveY, moveX, pOut.y, pOut.x, pOut.y);
+                        surface.cubicTo(moveX,
+                                        moveY,
+                                        center.x + ((pOut.x - center.x) / 2),
+                                        pOut.y + ((center.y - pOut.y) / 2),
+                                        pOut.x,
+                                        pOut.y);
+
                         break;
                     case 2:
                         surface.cubicTo(moveX,
@@ -282,14 +290,19 @@ public class RadarChartRenderer extends LineRadarRenderer {
         drawWeb(c);
     }
 
+    /**
+     * 그래프 선 그리는 곳
+     * 
+     * @param c
+     */
     protected void drawWeb(Canvas c) {
 
-        float sliceangle = mChart.getSliceAngle();
+        float sliceAngle = mChart.getSliceAngle();
 
         // calculate the factor that is needed for transforming the value to
         // pixels
         float factor = mChart.getFactor();
-        float rotationangle = mChart.getRotationAngle();
+        float rotationAngle = mChart.getRotationAngle();
 
         MPPointF center = mChart.getCenterOffsets();
 
@@ -308,7 +321,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             mWebPaint.setStyle(Paint.Style.STROKE);
 
-            Utils.getPosition(center, mChart.getYRange() * factor, sliceangle * i + rotationangle, p);
+            Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle, p);
 
             c.drawLine(center.x, center.y, p.x, p.y, mWebPaint);
             mWebPaint.setStyle(Paint.Style.FILL);
@@ -331,8 +344,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
         //
         //                float r = (mChart.getYAxis().mEntries[j] - mChart.getYChartMin()) * factor;
         //
-        //                Utils.getPosition(center, r, sliceangle * i + rotationangle, p1out);
-        //                Utils.getPosition(center, r, sliceangle * (i + 1) + rotationangle, p2out);
+        //                Utils.getPosition(center, r, sliceAngle * i + rotationAngle, p1out);
+        //                Utils.getPosition(center, r, sliceAngle * (i + 1) + rotationAngle, p2out);
         //
         //                c.drawLine(p1out.x, p1out.y, p2out.x, p2out.y, mWebPaint);
         //
@@ -346,7 +359,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
 
-        float sliceangle = mChart.getSliceAngle();
+        float sliceAngle = mChart.getSliceAngle();
 
         // calculate the factor that is needed for transforming the value to
         // pixels
@@ -373,10 +386,12 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             Utils.getPosition(center,
                               y * factor * mAnimator.getPhaseY(),
-                              sliceangle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle(),
+                              sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle(),
                               pOut);
 
-            high.setDraw(pOut.x, pOut.y);
+            // 클릭 시 삼각형 띄워주는 곳
+
+            high.setDraw(center.x, center.y);
 
             // draw the lines
             drawHighlightLines(c, pOut.x, pOut.y, set);

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="55dp"
-    android:layout_height="40dp"
-    android:background="@drawable/radar_marker" >
+    android:layout_width="200dp"
+    android:layout_height="100dp"
+    android:gravity="center"
+    android:background="#756B63">
 
     <TextView
         android:id="@+id/tvContent"
@@ -14,7 +15,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:text=""
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:textColor="@android:color/white"
         android:ellipsize="end"
         android:singleLine="true"
