@@ -3,8 +3,10 @@ package kr.co.openit.radarchart.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
 import kr.co.openit.radarchart.animation.ChartAnimator;
@@ -29,6 +31,14 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
     protected Paint mHighlightCirclePaint;
 
+    private Shader shader;
+
+    int[] colors = new int[] {Color.rgb(135, 176, 115),
+                              Color.rgb(18, 189, 163),
+                              Color.rgb(175, 169, 88),
+                              Color.rgb(255, 69, 96),
+                              Color.rgb(212, 169, 42)};
+
     float radius = 0f;
 
     public RadarChartRenderer(RadarChart chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
@@ -44,6 +54,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
         mWebPaint.setStyle(Paint.Style.STROKE);
 
         mHighlightCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     }
 
     public Paint getWebPaint() {
@@ -100,14 +111,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
         Path surface = mDrawDataSetSurfacePathBuffer;
         surface.reset();
 
-        int[] colors = new int[] {Color.rgb(135, 176, 115),
-                                  Color.rgb(18, 189, 163),
-                                  Color.rgb(175, 169, 88),
-                                  Color.rgb(255, 69, 96),
-                                  Color.rgb(212, 169, 42),
-
-        };
-
         boolean hasMovedToPoint = false;
 
         mRenderPaint.setColor(Color.rgb(241, 235, 230));
@@ -117,9 +120,10 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         for (int j = 0; j < dataSet.getEntryCount(); j++) {
 
-            mRenderPaint.setColor(colors[j]);
+            mRenderPaint.setColor(colors[1]);
             mRenderPaint.setStrokeWidth(dataSet.getLineWidth());
             mRenderPaint.setStyle(Paint.Style.STROKE);
+            mRenderPaint.setAntiAlias(true);
 
             RadarEntry e = dataSet.getEntryForIndex(j);
             Utils.getPosition(center,
@@ -144,10 +148,11 @@ public class RadarChartRenderer extends LineRadarRenderer {
                         surface.cubicTo(moveX,
                                         moveY,
                                         center.x + ((pOut.x - center.x) / 2),
-//                                        (center.y + pOut.y) / 2,
-                                                                                pOut.y + ((center.y - pOut.y) / 2),
+                                        //                                        (center.y + pOut.y) / 2,
+                                        pOut.y + ((center.y - pOut.y) / 2),
                                         pOut.x,
                                         pOut.y);
+                        shader = new LinearGradient(moveX, moveY, pOut.x, pOut.y, colors, null, Shader.TileMode.MIRROR);
 
                         break;
                     case 2:
@@ -183,6 +188,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
             }
             //            surface.quadTo(pOut.x + 30, pOut.y + 30, pOut.x - 30, pOut.y - 30);
             //            surface.lineTo(pOut.x, pOut.y);
+            mRenderPaint.setShader(shader);
             c.drawPath(surface, mRenderPaint);
 
             surface.reset();
@@ -202,6 +208,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         mRenderPaint.setColor(colors[0]);
         c.drawPath(surface, mRenderPaint);
+
+        mRenderPaint.setShader(null);
 
         surface.close();
 
