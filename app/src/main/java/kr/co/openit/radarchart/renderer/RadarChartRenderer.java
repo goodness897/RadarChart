@@ -124,12 +124,20 @@ public class RadarChartRenderer extends LineRadarRenderer {
             mRenderPaint.setStrokeWidth(dataSet.getLineWidth());
             mRenderPaint.setStyle(Paint.Style.STROKE);
             mRenderPaint.setAntiAlias(true);
-
+            mRenderPaint.setStrokeCap(Paint.Cap.ROUND);
             RadarEntry e = dataSet.getEntryForIndex(j);
-            Utils.getPosition(center,
-                              (e.getY() - mChart.getYChartMin()) * factor * phaseY,
-                              sliceAngle * j * phaseX + mChart.getRotationAngle(),
-                              pOut);
+            if (dataSet.getEntryCount() == 3) {
+                Utils.getPosition(center,
+                                  (e.getY() - mChart.getYChartMin()) * factor * phaseY,
+                                  sliceAngle * j * phaseX + mChart.getRotationAngle() - 60,
+                                  pOut);
+            } else {
+                Utils.getPosition(center,
+                                  (e.getY() - mChart.getYChartMin()) * factor * phaseY,
+                                  sliceAngle * j * phaseX + mChart.getRotationAngle(),
+                                  pOut);
+            }
+
             if (radius < e.getY())
                 radius = e.getY();
 
@@ -329,7 +337,11 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             mWebPaint.setStyle(Paint.Style.STROKE);
 
-            Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle, p);
+            if (maxEntryCount == 3) {
+                Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle - 60, p);
+            } else {
+                Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle, p);
+            }
 
             c.drawLine(center.x, center.y, p.x, p.y, mWebPaint);
             mWebPaint.setStyle(Paint.Style.FILL);
@@ -392,13 +404,19 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             float y = (e.getY() - mChart.getYChartMin());
 
-            Utils.getPosition(center,
-                              y * factor * mAnimator.getPhaseY(),
-                              sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle(),
-                              pOut);
+            if (indices.length == 3) {
+                Utils.getPosition(center,
+                                  y * factor * mAnimator.getPhaseY(),
+                                  sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle() - 60,
+                                  pOut);
+            } else {
+                Utils.getPosition(center,
+                                  y * factor * mAnimator.getPhaseY(),
+                                  sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle(),
+                                  pOut);
+            }
 
-            // 클릭 시 삼각형 띄워주는 곳
-
+            // 클릭 시 삼각형 띄워주는 곳(센터로 맞춰놓음)
             high.setDraw(center.x, center.y);
 
             // draw the lines

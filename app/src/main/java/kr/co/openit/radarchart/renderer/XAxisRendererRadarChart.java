@@ -40,7 +40,7 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         float factor = mChart.getFactor();
 
         MPPointF center = mChart.getCenterOffsets();
-        MPPointF pOut = MPPointF.getInstance(0,0);
+        MPPointF pOut = MPPointF.getInstance(0, 0);
         for (int i = 0; i < mChart.getData().getMaxEntryCountSet().getEntryCount(); i++) {
 
             String label = mXAxis.getValueFormatter().getFormattedValue(i, mXAxis);
@@ -48,11 +48,19 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
             float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
 
-            Utils.getPosition(center, mChart.getYRange() * factor
-                    + mXAxis.mLabelRotatedWidth / 2f, angle, pOut);
+            if (mChart.getData().getMaxEntryCountSet().getEntryCount() == 3) {
+                Utils.getPosition(center, mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f, angle - 60, pOut);
+            } else {
+                Utils.getPosition(center, mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f, angle, pOut);
+            }
 
-            drawLabel(c, label, value.getValue(), pOut.x, pOut.y - mXAxis.mLabelRotatedHeight / 2.f,
-                    drawLabelAnchor, labelRotationAngleDegrees);
+            drawLabel(c,
+                      label,
+                      value.getValue(),
+                      pOut.x,
+                      pOut.y - mXAxis.mLabelRotatedHeight / 2.f,
+                      drawLabelAnchor,
+                      labelRotationAngleDegrees);
         }
 
         MPPointF.recycleInstance(center);
@@ -60,13 +68,13 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         MPPointF.recycleInstance(drawLabelAnchor);
     }
 
-	/**
-	 * XAxis LimitLines on RadarChart not yet supported.
-	 *
-	 * @param c
-	 */
-	@Override
-	public void renderLimitLines(Canvas c) {
-		// this space intentionally left blank
-	}
+    /**
+     * XAxis LimitLines on RadarChart not yet supported.
+     *
+     * @param c
+     */
+    @Override
+    public void renderLimitLines(Canvas c) {
+        // this space intentionally left blank
+    }
 }

@@ -134,29 +134,31 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
             mXAxisRenderer.computeAxis(mXAxis.mAxisMinimum, mXAxis.mAxisMaximum, false);
         }
 
+        // Draw Label
         mXAxisRenderer.renderAxisLabels(canvas);
+        //
+//        mYAxisRenderer.renderLimitLines(canvas);
 
-        mYAxisRenderer.renderLimitLines(canvas);
 
-
+        // Draw Line
         if (mDrawWeb)
             mRenderer.drawExtras(canvas);
 
+        // Draw Data
         mRenderer.drawData(canvas);
-
-
 
         if (valuesToHighlight())
             mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
-        mYAxisRenderer.renderAxisLabels(canvas);
+//        mYAxisRenderer.renderAxisLabels(canvas);
 
-        mRenderer.drawValues(canvas);
+//        mRenderer.drawValues(canvas);
 
-        mLegendRenderer.renderLegend(canvas);
+//        mLegendRenderer.renderLegend(canvas);
 
-        drawDescription(canvas);
+//        drawDescription(canvas);
 
+        // 클릭 시 Draw Marker
         drawMarkers(canvas);
     }
 

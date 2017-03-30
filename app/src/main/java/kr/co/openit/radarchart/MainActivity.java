@@ -24,8 +24,8 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<RadarEntry> entries2;
 
-    private String[] mActivities = new String[]{"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
-
+        private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
+//    private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
 
         entries2 = new ArrayList<RadarEntry>();
 
-        mChart = (RadarChart) findViewById(R.id.chart1);
+        mChart = (RadarChart)findViewById(R.id.chart1);
 
         mChart.getDescription().setEnabled(false);
 
@@ -53,10 +53,7 @@ public class MainActivity extends BaseActivity {
 
         setData();
 
-        mChart.animateXY(
-                1400, 1400,
-                Easing.EasingOption.EaseInOutQuad,
-                Easing.EasingOption.EaseInOutQuad);
+        mChart.animateXY(1400, 1400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
@@ -68,15 +65,14 @@ public class MainActivity extends BaseActivity {
         xAxis.setValueTextSize(14f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return mActivities[(int) value % mActivities.length];
+                return mActivities[(int)value % mActivities.length];
             }
 
             @Override
             public RadarEntry getValue(float value, AxisBase axis) {
-                return entries2.get((int) value % entries2.size());
+                return entries2.get((int)value % entries2.size());
             }
         });
         YAxis yAxis = mChart.getYAxis();
@@ -89,55 +85,56 @@ public class MainActivity extends BaseActivity {
 
         Legend l = mChart.getLegend();
         l.setEnabled(false);
-//        l.setForm(Legend.LegendForm.NONE);
-//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-//        l.setDrawInside(false);
-//        l.setTypeface(mTfLight);
-//        l.setXEntrySpace(7f);
-//        l.setYEntrySpace(5f);
-//        l.setTextColor(Color.WHITE);
+        //        l.setForm(Legend.LegendForm.NONE);
+        //        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        //        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        //        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        //        l.setDrawInside(false);
+        //        l.setTypeface(mTfLight);
+        //        l.setXEntrySpace(7f);
+        //        l.setYEntrySpace(5f);
+        //        l.setTextColor(Color.WHITE);
     }
+
     public void setData() {
 
         float mult = 50;
         float min = 40;
-        int cnt = 5;
+        int cnt = mActivities.length;
 
-//        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
+        //        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < cnt; i++) {
-//            float val1 = (float) (Math.random() * mult) + min;
-//            entries1.add(new RadarEntry(val1));
+            //            float val1 = (float) (Math.random() * mult) + min;
+            //            entries1.add(new RadarEntry(val1));
 
-            float val2 = (float) (Math.random() * mult) + min;
-//            float val2 = 80;
+            float val2 = (float)(Math.random() * mult) + min;
+            //            float val2 = 80;
             entries2.add(new RadarEntry(val2));
         }
 
-//        RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
-//        set1.setColor(Color.rgb(103, 110, 129));
-//        set1.setFillColor(Color.rgb(103, 110, 129));
-//        set1.setDrawFilled(true);
-//        set1.setFillAlpha(180);
-//        set1.setLineWidth(2f);
-//        set1.setDrawHighlightCircleEnabled(true);
-//        set1.setDrawHighlightIndicators(false);
+        //        RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
+        //        set1.setColor(Color.rgb(103, 110, 129));
+        //        set1.setFillColor(Color.rgb(103, 110, 129));
+        //        set1.setDrawFilled(true);
+        //        set1.setFillAlpha(180);
+        //        set1.setLineWidth(2f);
+        //        set1.setDrawHighlightCircleEnabled(true);
+        //        set1.setDrawHighlightIndicators(false);
 
         RadarDataSet set2 = new RadarDataSet(entries2, "");
         set2.setColor(Color.rgb(29, 198, 161));
-//        set2.setFillColor(Color.rgb(121, 162, 175));
+        //        set2.setFillColor(Color.rgb(121, 162, 175));
         set2.setDrawFilled(false);
         set2.setFillAlpha(180);
-        set2.setLineWidth(4f);
+        set2.setLineWidth(5f);
         set2.setDrawHighlightCircleEnabled(false);
         set2.setDrawHighlightIndicators(false);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
-//        sets.add(set1);
+        //        sets.add(set1);
         sets.add(set2);
 
         RadarData data = new RadarData(sets);
