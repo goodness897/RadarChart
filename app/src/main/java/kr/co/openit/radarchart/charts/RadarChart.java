@@ -16,10 +16,8 @@ import kr.co.openit.radarchart.components.YAxis;
 import kr.co.openit.radarchart.components.YAxis.AxisDependency;
 import kr.co.openit.radarchart.renderer.YAxisRendererRadarChart;
 
-
 /**
- * Implementation of the RadarChart, a "spidernet"-like chart. It works best
- * when displaying 5-10 entries per DataSet.
+ * Implementation of the RadarChart, a "spidernet"-like chart. It works best when displaying 5-10 entries per DataSet.
  *
  * @author Philipp Jahoda
  */
@@ -66,6 +64,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     private YAxis mYAxis;
 
     protected YAxisRendererRadarChart mYAxisRenderer;
+
     protected XAxisRendererRadarChart mXAxisRenderer;
 
     public RadarChart(Context context) {
@@ -127,8 +126,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         if (mData == null)
             return;
 
-//        if (mYAxis.isEnabled())
-//            mYAxisRenderer.computeAxis(mYAxis.mAxisMinimum, mYAxis.mAxisMaximum, mYAxis.isInverted());
+        //        if (mYAxis.isEnabled())
+        //            mYAxisRenderer.computeAxis(mYAxis.mAxisMinimum, mYAxis.mAxisMaximum, mYAxis.isInverted());
 
         if (mXAxis.isEnabled()) {
             mXAxisRenderer.computeAxis(mXAxis.mAxisMinimum, mXAxis.mAxisMaximum, false);
@@ -137,8 +136,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         // Draw Label
         mXAxisRenderer.renderAxisLabels(canvas);
         //
-//        mYAxisRenderer.renderLimitLines(canvas);
-
+        //        mYAxisRenderer.renderLimitLines(canvas);
 
         // Draw Line
         if (mDrawWeb)
@@ -150,16 +148,16 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         if (valuesToHighlight())
             mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
-//        mYAxisRenderer.renderAxisLabels(canvas);
-
-//        mRenderer.drawValues(canvas);
-
-//        mLegendRenderer.renderLegend(canvas);
-
-//        drawDescription(canvas);
-
         // 클릭 시 Draw Marker
         drawMarkers(canvas);
+
+        //        mYAxisRenderer.renderAxisLabels(canvas);
+
+        //        mRenderer.drawValues(canvas);
+
+        //        mLegendRenderer.renderLegend(canvas);
+
+        //        drawDescription(canvas);
     }
 
     /**
@@ -178,7 +176,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      * @return
      */
     public float getSliceAngle() {
-        return 360f / (float) mData.getMaxEntryCountSet().getEntryCount();
+        return 360f / (float)mData.getMaxEntryCountSet().getEntryCount();
     }
 
     @Override
@@ -229,8 +227,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * Sets the width of the web lines that are in between the lines coming from
-     * the center.
+     * Sets the width of the web lines that are in between the lines coming from the center.
      *
      * @param width
      */
@@ -243,8 +240,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * Sets the transparency (alpha) value for all web lines, default: 150, 255
-     * = 100% opaque, 0 = 100% transparent
+     * Sets the transparency (alpha) value for all web lines, default: 150, 255 = 100% opaque, 0 = 100% transparent
      *
      * @param alpha
      */
@@ -262,9 +258,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * Sets the color for the web lines that come from the center. Don't forget
-     * to use getResources().getColor(...) when loading a color from the
-     * resources. Default: Color.rgb(122, 122, 122)
+     * Sets the color for the web lines that come from the center. Don't forget to use getResources().getColor(...) when
+     * loading a color from the resources. Default: Color.rgb(122, 122, 122)
      *
      * @param color
      */
@@ -277,9 +272,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * Sets the color for the web lines in between the lines that come from the
-     * center. Don't forget to use getResources().getColor(...) when loading a
-     * color from the resources. Default: Color.rgb(122, 122, 122)
+     * Sets the color for the web lines in between the lines that come from the center. Don't forget to use
+     * getResources().getColor(...) when loading a color from the resources. Default: Color.rgb(122, 122, 122)
      *
      * @param color
      */
@@ -292,8 +286,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * If set to true, drawing the web is enabled, if set to false, drawing the
-     * whole web is disabled. Default: true
+     * If set to true, drawing the web is enabled, if set to false, drawing the whole web is disabled. Default: true
      *
      * @param enabled
      */
@@ -302,8 +295,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     }
 
     /**
-     * Sets the number of web-lines that should be skipped on chart web before the
-     * next one is drawn. This targets the lines that come from the center of the RadarChart.
+     * Sets the number of web-lines that should be skipped on chart web before the next one is drawn. This targets the
+     * lines that come from the center of the RadarChart.
      *
      * @param count if count = 1 -> 1 line is skipped in between
      */
@@ -328,9 +321,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     @Override
     protected float getRequiredBaseOffset() {
-        return mXAxis.isEnabled() && mXAxis.isDrawLabelsEnabled() ?
-                mXAxis.mLabelRotatedWidth :
-                Utils.convertDpToPixel(10f);
+        return mXAxis.isEnabled() && mXAxis.isDrawLabelsEnabled() ? mXAxis.mLabelRotatedWidth
+                                                                  : Utils.convertDpToPixel(10f);
     }
 
     @Override

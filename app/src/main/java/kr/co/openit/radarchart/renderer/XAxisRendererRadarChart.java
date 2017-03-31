@@ -33,7 +33,7 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         mAxisLabelPaint.setTextSize(mXAxis.getTextSize());
         mAxisLabelPaint.setColor(mXAxis.getTextColor());
 
-        float sliceangle = mChart.getSliceAngle();
+        float sliceAngle = mChart.getSliceAngle();
 
         // calculate the factor that is needed for transforming the value to
         // pixels
@@ -46,10 +46,18 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
             String label = mXAxis.getValueFormatter().getFormattedValue(i, mXAxis);
             RadarEntry value = mXAxis.getValueFormatter().getValue(i, mXAxis);
 
-            float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
+            float angle = (sliceAngle * i + mChart.getRotationAngle()) % 360f;
 
             if (mChart.getData().getMaxEntryCountSet().getEntryCount() == 3) {
-                Utils.getPosition(center, mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f, angle - 60, pOut);
+                Utils.getPosition(center,
+                                  mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f,
+                                  angle - 60,
+                                  pOut);
+            } else if (mChart.getData().getMaxEntryCountSet().getEntryCount() == 4) {
+                Utils.getPosition(center,
+                                  mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f,
+                                  angle - 45,
+                                  pOut);
             } else {
                 Utils.getPosition(center, mChart.getYRange() * factor + mXAxis.mLabelRotatedWidth / 2f, angle, pOut);
             }
@@ -57,10 +65,11 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
             drawLabel(c,
                       label,
                       value.getValue(),
-                      pOut.x,
-                      pOut.y - mXAxis.mLabelRotatedHeight / 2.f,
+                      pOut.x + mXAxis.mLabelRotatedWidth / 4.f,
+                      pOut.y + mXAxis.mLabelRotatedHeight / 2.f,
                       drawLabelAnchor,
                       labelRotationAngleDegrees);
+
         }
 
         MPPointF.recycleInstance(center);

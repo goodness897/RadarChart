@@ -104,7 +104,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         float x = 0, y = 0;
         float moveX = 0, moveY = 0;
-        float dx = 0, dy = 0;
         MPPointF center = mChart.getCenterOffsets();
         MPPointF pOut = MPPointF.getInstance(0, 0);
 
@@ -131,6 +130,12 @@ public class RadarChartRenderer extends LineRadarRenderer {
                                   (e.getY() - mChart.getYChartMin()) * factor * phaseY,
                                   sliceAngle * j * phaseX + mChart.getRotationAngle() - 60,
                                   pOut);
+            } else if (dataSet.getEntryCount() == 4) {
+                Utils.getPosition(center,
+                                  (e.getY() - mChart.getYChartMin()) * factor * phaseY,
+                                  sliceAngle * j * phaseX + mChart.getRotationAngle() - 60,
+                                  pOut);
+
             } else {
                 Utils.getPosition(center,
                                   (e.getY() - mChart.getYChartMin()) * factor * phaseY,
@@ -150,52 +155,24 @@ public class RadarChartRenderer extends LineRadarRenderer {
                 y = pOut.y;
                 hasMovedToPoint = true;
             } else {
+                float quadX = quadBezier(moveX, center.x, pOut.x, 0.5f);
+                float quadY = quadBezier(moveY, center.y, pOut.y, 0.5f);
                 switch (j) {
                     case 1:
-                        //                        surface.quadTo(pOut.x - 100, pOut.y + 100, pOut.x, pOut.y);
-                        surface.cubicTo(moveX,
-                                        moveY,
-                                        center.x + ((pOut.x - center.x) / 2),
-                                        //                                        (center.y + pOut.y) / 2,
-                                        pOut.y + ((center.y - pOut.y) / 2),
-                                        pOut.x,
-                                        pOut.y);
+                        surface.cubicTo(moveX, moveY, quadX, quadY, pOut.x, pOut.y);
                         shader = new LinearGradient(moveX, moveY, pOut.x, pOut.y, colors, null, Shader.TileMode.MIRROR);
-
                         break;
                     case 2:
-                        surface.cubicTo(moveX,
-                                        moveY,
-                                        center.x + ((pOut.x - center.x) / 2),
-                                        pOut.y + ((center.y - pOut.y) / 2),
-                                        pOut.x,
-                                        pOut.y);
-                        //                        surface.quadTo(pOut.x - 100, pOut.y - 60, pOut.x, pOut.y);
+                        surface.cubicTo(moveX, moveY, quadX, quadY, pOut.x, pOut.y);
                         break;
                     case 3:
-                        surface.cubicTo(moveX,
-                                        moveY,
-                                        center.x + ((pOut.x - center.x) / 2),
-                                        pOut.y + ((center.y - pOut.y) / 2),
-                                        pOut.x,
-                                        pOut.y);
-                        //                        surface.quadTo(pOut.x, pOut.y - 100, pOut.x, pOut.y);
+                        surface.cubicTo(moveX, moveY, quadX, quadY, pOut.x, pOut.y);
                         break;
                     case 4:
-                        surface.cubicTo(moveX,
-                                        moveY,
-                                        center.x + ((pOut.x - center.x) / 2),
-                                        pOut.y + ((center.y - pOut.y) / 2),
-                                        pOut.x,
-                                        pOut.y);
+                        surface.cubicTo(moveX, moveY, quadX, quadY, pOut.x, pOut.y);
                         break;
                 }
-
-                //                                surface.quadTo(pOut.x - 20, pOut.y - 20, pOut.x + 20, pOut.y + 20);
-                //                surface.lineTo(pOut.x, pOut.y);
             }
-            //            surface.quadTo(pOut.x + 30, pOut.y + 30, pOut.x - 30, pOut.y - 30);
-            //            surface.lineTo(pOut.x, pOut.y);
             mRenderPaint.setShader(shader);
             c.drawPath(surface, mRenderPaint);
 
@@ -212,7 +189,10 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         }
 
-        surface.cubicTo(moveX, moveY, center.x + ((x - center.x) / 2), y + ((center.y - y) / 2), x, y);
+        float quadX = quadBezier(moveX, center.x, pOut.x, 0.5f);
+        float quadY = quadBezier(moveY, center.y, pOut.y, 0.5f);
+
+        surface.cubicTo(moveX, moveY, quadX, quadY, x, y);
 
         mRenderPaint.setColor(colors[0]);
         c.drawPath(surface, mRenderPaint);
@@ -248,6 +228,30 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
         MPPointF.recycleInstance(center);
         MPPointF.recycleInstance(pOut);
+    }
+
+    /**
+     * 베지에 곡선
+     * 
+     * @param fromPoint 시작점
+     * @param center 가운데점
+     * @param toPoint 도착점
+     * @param weight 가중치
+     * @return
+     */
+
+    public float quadBezier(float fromPoint, float center, float toPoint, float weight) {
+        if (weight == 0) {
+            return fromPoint;
+        }
+        if (weight == 1) {
+            return toPoint;
+        }
+
+        float s = 1 - weight;
+
+        return (float)(Math.pow(s, 2) * fromPoint + 2 * (s * weight) * center + Math.pow(weight, 2) * toPoint);
+
     }
 
     @Override
@@ -339,6 +343,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             if (maxEntryCount == 3) {
                 Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle - 60, p);
+            } else if (maxEntryCount == 4) {
+                Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle - 45, p);
             } else {
                 Utils.getPosition(center, mChart.getYRange() * factor, sliceAngle * i + rotationAngle, p);
             }
@@ -408,6 +414,11 @@ public class RadarChartRenderer extends LineRadarRenderer {
                 Utils.getPosition(center,
                                   y * factor * mAnimator.getPhaseY(),
                                   sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle() - 60,
+                                  pOut);
+            } else if (indices.length == 4) {
+                Utils.getPosition(center,
+                                  y * factor * mAnimator.getPhaseY(),
+                                  sliceAngle * high.getX() * mAnimator.getPhaseX() + mChart.getRotationAngle() - 45,
                                   pOut);
             } else {
                 Utils.getPosition(center,

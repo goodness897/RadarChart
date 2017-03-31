@@ -24,13 +24,18 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<RadarEntry> entries2;
 
-        private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
-//    private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량"};
+//    private String[] mActivities;
+//        private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량", "수면 점수"};
+//    private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량", "칼로리 섭취량"};
+    private String[] mActivities = new String[] {"칼로리 소모량", "걸음수", "물 섭취량"};
+
+//    private String[] mActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         entries2 = new ArrayList<RadarEntry>();
 
@@ -94,6 +99,7 @@ public class MainActivity extends BaseActivity {
         //        l.setXEntrySpace(7f);
         //        l.setYEntrySpace(5f);
         //        l.setTextColor(Color.WHITE);
+
     }
 
     public void setData() {
@@ -101,6 +107,7 @@ public class MainActivity extends BaseActivity {
         float mult = 50;
         float min = 40;
         int cnt = mActivities.length;
+
 
         //        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
 

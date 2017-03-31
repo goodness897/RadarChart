@@ -6,16 +6,16 @@
     android:orientation="vertical">
 
     <View
-        android:background="@android:color/black"
         android:layout_width="match_parent"
-        android:layout_height="45dp"/>
+        android:layout_height="45dp"
+        android:background="@android:color/black" />
 
 
     <kr.co.openit.radarchart.charts.RadarChart
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 </LinearLayout>
